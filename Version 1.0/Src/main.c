@@ -61,7 +61,7 @@ void SystemClock_Config(void);
 /* USER CODE END PFP */
 
 /* USER CODE BEGIN 0 */
-	void user_pwm_setvalue(uint16_t value);
+
 /* USER CODE END 0 */
 
 int main(void)
@@ -92,7 +92,9 @@ int main(void)
   MX_TIM1_Init();
 
   /* USER CODE BEGIN 2 */
-  HAL_TIM_PWM_Start(&htim1, TIM_CHANNEL_1);
+  HAL_TIM_PWM_Start(&htim1, TIM_CHANNEL_1); // Inicializa os timers para geração da PWM nos pinos A8, A9, A10
+  HAL_TIM_PWM_Start(&htim1, TIM_CHANNEL_2);
+  HAL_TIM_PWM_Start(&htim1, TIM_CHANNEL_3);
   /* USER CODE END 2 */
 
   /* Infinite loop */
@@ -102,13 +104,16 @@ int main(void)
   /* USER CODE END WHILE */
 
   /* USER CODE BEGIN 3 */
-	  __HAL_TIM_SetCompare(&htim1, TIM_CHANNEL_1,500);
-	  //user_pwm_setvalue(0);
+	  __HAL_TIM_SetCompare(&htim1, TIM_CHANNEL_1, 370); // Seta o servo 1 (Pino A8) para a posição aberto
+	  __HAL_TIM_SetCompare(&htim1, TIM_CHANNEL_2, 520); // Seta o servo 2 (Pino A9) para a posição aberto
+	  __HAL_TIM_SetCompare(&htim1, TIM_CHANNEL_3, 200); // Seta o servo 3 (Pino A10) para a posição aberto
 	  HAL_Delay(5000);
-	  //user_pwm_setvalue(1000);
-	  __HAL_TIM_SetCompare(&htim1, TIM_CHANNEL_1,1500);
-	  HAL_Delay(5000);
-	  HAL_GPIO_TogglePin(GPIOC,GPIO_PIN_13);
+
+	 __HAL_TIM_SetCompare(&htim1, TIM_CHANNEL_1, 870); //Seta o servo 1 (Pino A8) para a posição fechado
+	 __HAL_TIM_SetCompare(&htim1, TIM_CHANNEL_2, 1300); //Seta o servo 2 (Pino A9) para a posição fechado
+	 __HAL_TIM_SetCompare(&htim1, TIM_CHANNEL_3, 1000); //Seta o servo 3 (Pino A10) para a posição fechado
+	 HAL_Delay(5000);
+	 HAL_GPIO_TogglePin(GPIOC,GPIO_PIN_13);
   }
   /* USER CODE END 3 */
 
