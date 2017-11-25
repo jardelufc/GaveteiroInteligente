@@ -38,6 +38,8 @@
 /* Includes ------------------------------------------------------------------*/
 #include "main.h"
 #include "stm32f1xx_hal.h"
+#include "adc.h"
+#include "spi.h"
 #include "tim.h"
 #include "gpio.h"
 
@@ -90,11 +92,14 @@ int main(void)
   /* Initialize all configured peripherals */
   MX_GPIO_Init();
   MX_TIM1_Init();
+  MX_ADC1_Init();
+  MX_SPI1_Init();
 
   /* USER CODE BEGIN 2 */
   HAL_TIM_PWM_Start(&htim1, TIM_CHANNEL_1); // Inicializa os timers para geração da PWM nos pinos A8, A9, A10
   HAL_TIM_PWM_Start(&htim1, TIM_CHANNEL_2);
   HAL_TIM_PWM_Start(&htim1, TIM_CHANNEL_3);
+  HAL_ADC_Start(&hadc1);
   /* USER CODE END 2 */
 
   /* Infinite loop */
@@ -104,6 +109,7 @@ int main(void)
   /* USER CODE END WHILE */
 
   /* USER CODE BEGIN 3 */
+	  HAL_ADC_GetValue(&hadc1); // Pega o valor em um pino de entrada (PA3) e converte em bits (de 0 a 4095)
 	  __HAL_TIM_SetCompare(&htim1, TIM_CHANNEL_1, 370); // Seta o servo 1 (Pino A8) para a posição aberto
 	  __HAL_TIM_SetCompare(&htim1, TIM_CHANNEL_2, 520); // Seta o servo 2 (Pino A9) para a posição aberto
 	  __HAL_TIM_SetCompare(&htim1, TIM_CHANNEL_3, 200); // Seta o servo 3 (Pino A10) para a posição aberto
@@ -126,6 +132,7 @@ void SystemClock_Config(void)
 
   RCC_OscInitTypeDef RCC_OscInitStruct;
   RCC_ClkInitTypeDef RCC_ClkInitStruct;
+  RCC_PeriphCLKInitTypeDef PeriphClkInit;
 
     /**Initializes the CPU, AHB and APB busses clocks 
     */
@@ -152,6 +159,13 @@ void SystemClock_Config(void)
     _Error_Handler(__FILE__, __LINE__);
   }
 
+  PeriphClkInit.PeriphClockSelection = RCC_PERIPHCLK_ADC;
+  PeriphClkInit.AdcClockSelection = RCC_ADCPCLK2_DIV2;
+  if (HAL_RCCEx_PeriphCLKConfig(&PeriphClkInit) != HAL_OK)
+  {
+    _Error_Handler(__FILE__, __LINE__);
+  }
+
     /**Configure the Systick interrupt time 
     */
   HAL_SYSTICK_Config(HAL_RCC_GetHCLKFreq()/1000);
@@ -165,14 +179,11 @@ void SystemClock_Config(void)
 }
 
 /* USER CODE BEGIN 4 */
-void user_pwm_setvalue(uint16_t value) {
-    TIM_OC_InitTypeDef sConfigOC;
-    sConfigOC.OCMode = TIM_OCMODE_PWM1;
-    sConfigOC.Pulse = value;
-    sConfigOC.OCPolarity = TIM_OCPOLARITY_HIGH;
-    sConfigOC.OCFastMode = TIM_OCFAST_DISABLE;
-    HAL_TIM_PWM_ConfigChannel(&htim1, &sConfigOC, TIM_CHANNEL_1);
-    HAL_TIM_PWM_Start(&htim1, TIM_CHANNEL_1);
+float calculo_resistencia(uint32_t input) { // calcula a resistência baseada na queda de tensão
+	float volt, res = 0;
+	volt = (3.3*input)/4095; // converte de bits para volts, assumindo uma tensão máxima de 3.3 V
+	res = r1((3.3/volt) - 1); //r1 é a resistência fixa, quero usar uma de 10K Ohm
+	return res; // res é a resistência que foi medida
 }
 
 /* USER CODE END 4 */
