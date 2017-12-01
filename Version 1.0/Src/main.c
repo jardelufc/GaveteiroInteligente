@@ -100,6 +100,8 @@ int main(void)
   HAL_TIM_PWM_Start(&htim1, TIM_CHANNEL_2);
   HAL_TIM_PWM_Start(&htim1, TIM_CHANNEL_3);
   HAL_ADC_Start(&hadc1);
+  int tecla = 0;
+  int valorFinal = 0;
   /* USER CODE END 2 */
 
   /* Infinite loop */
@@ -109,17 +111,99 @@ int main(void)
   /* USER CODE END WHILE */
 
   /* USER CODE BEGIN 3 */
+
+	  HAL_GPIO_WritePin (GPIOB, GPIO_PIN_7, GPIO_PIN_RESET);
+	  HAL_GPIO_WritePin (GPIOB, GPIO_PIN_8, GPIO_PIN_SET);
+	  HAL_GPIO_WritePin (GPIOB, GPIO_PIN_9, GPIO_PIN_SET);
+
+	  if ((HAL_GPIO_ReadPin(GPIOB,GPIO_PIN_3))==GPIO_PIN_RESET){
+		  tecla = tecla * 10;
+		  tecla = tecla + 1;
+	  	  }
+	  if ((HAL_GPIO_ReadPin(GPIOB,GPIO_PIN_4))==GPIO_PIN_RESET){
+		  tecla = tecla * 10;
+		  tecla = tecla + 4;
+	  	  }
+	  if ((HAL_GPIO_ReadPin(GPIOB,GPIO_PIN_5))==GPIO_PIN_RESET){
+		  tecla = tecla * 10;
+		  tecla = tecla + 7;
+	  	  }
+	  if ((HAL_GPIO_ReadPin(GPIOB,GPIO_PIN_6))==GPIO_PIN_RESET){
+		  tecla = 0;
+		  tecla = tecla * 0;
+		  valorFinal = 0;
+		  valorFinal = valorFinal * 0;
+	  }
+/*
+	  HAL_GPIO_WritePin (GPIOB, GPIO_PIN_7, GPIO_PIN_SET);
+	  HAL_GPIO_WritePin (GPIOB, GPIO_PIN_8, GPIO_PIN_RESET);
+	  HAL_GPIO_WritePin (GPIOB, GPIO_PIN_9, GPIO_PIN_SET);
+	  for(int k=5;k>0;k--); //delay ler linhas
+	  if (!(HAL_GPIO_ReadPin(GPIOB,GPIO_PIN_3))){
+		  tecla = tecla * 10;
+		  tecla = tecla + 2;
+	  	  }
+	  if (!(HAL_GPIO_ReadPin(GPIOB,GPIO_PIN_4))){
+		  tecla = tecla * 10;
+		  tecla = tecla + 5;
+	  	  }
+	  if (!(HAL_GPIO_ReadPin(GPIOB,GPIO_PIN_5))){
+		  tecla = tecla * 10;
+		  tecla = tecla + 8;
+	  	  }
+	  if (!(HAL_GPIO_ReadPin(GPIOB,GPIO_PIN_6))){
+		  tecla = tecla * 10;
+		  }
+
+	  HAL_GPIO_WritePin (GPIOB, GPIO_PIN_7, GPIO_PIN_SET);
+	  HAL_GPIO_WritePin (GPIOB, GPIO_PIN_8, GPIO_PIN_SET);
+	  HAL_GPIO_WritePin (GPIOB, GPIO_PIN_9, GPIO_PIN_RESET);
+	  for(int k=5;k>0;k--); //delay ler linhas
+	  if (!(HAL_GPIO_ReadPin(GPIOB,GPIO_PIN_3))){
+	  	  tecla = tecla * 10;
+	  	  tecla = tecla + 3;
+	   	  }
+	  if (!(HAL_GPIO_ReadPin(GPIOB,GPIO_PIN_4))){
+	  	  tecla = tecla * 10;
+	  	  tecla = tecla + 6;
+	   	  }
+	  if (!(HAL_GPIO_ReadPin(GPIOB,GPIO_PIN_5))){
+	  	  tecla = tecla * 10;
+	  	  tecla = tecla + 9;
+	   	  }
+	  if (!(HAL_GPIO_ReadPin(GPIOB, GPIO_PIN_6))){
+	  	  valorFinal = tecla;
+	  	  tecla = 0;
+	      }
+	  if (valorFinal!=0){
+		  for (int i = 0; i<valorFinal; i++) {
+			  HAL_GPIO_TogglePin(GPIOC,GPIO_PIN_13);
+			  HAL_Delay(600);
+			  HAL_GPIO_TogglePin(GPIOC,GPIO_PIN_13);
+			  HAL_Delay(600);
+		  }
+		  valorFinal=0;
+
+	  }
+	  /*
 	  HAL_ADC_GetValue(&hadc1); // Pega o valor em um pino de entrada (PA3) e converte em bits (de 0 a 4095)
-	  __HAL_TIM_SetCompare(&htim1, TIM_CHANNEL_1, 370); // Seta o servo 1 (Pino A8) para a posição aberto
-	  __HAL_TIM_SetCompare(&htim1, TIM_CHANNEL_2, 520); // Seta o servo 2 (Pino A9) para a posição aberto
+	  __HAL_TIM_SetCompare(&htim1, TIM_CHANNEL_1, 200); // Seta o servo 1 (Pino A8) para a posição aberto
+	  for(int k=5;k>0;k--);
+	  __HAL_TIM_SetCompare(&htim1, TIM_CHANNEL_2, 460); // Seta o servo 2 (Pino A9) para a posição aberto
+	  for(int k=5;k>0;k--);
 	  __HAL_TIM_SetCompare(&htim1, TIM_CHANNEL_3, 200); // Seta o servo 3 (Pino A10) para a posição aberto
+	  for(int k=5;k>0;k--);
 	  HAL_Delay(5000);
 
-	 __HAL_TIM_SetCompare(&htim1, TIM_CHANNEL_1, 870); //Seta o servo 1 (Pino A8) para a posição fechado
+	 __HAL_TIM_SetCompare(&htim1, TIM_CHANNEL_1, 800); //Seta o servo 1 (Pino A8) para a posição fechado
+	 for(int k=5;k>0;k--);
 	 __HAL_TIM_SetCompare(&htim1, TIM_CHANNEL_2, 1300); //Seta o servo 2 (Pino A9) para a posição fechado
-	 __HAL_TIM_SetCompare(&htim1, TIM_CHANNEL_3, 1000); //Seta o servo 3 (Pino A10) para a posição fechado
+	 for(int k=5;k>0;k--);
+	 __HAL_TIM_SetCompare(&htim1, TIM_CHANNEL_3, 1200); //Seta o servo 3 (Pino A10) para a posição fechado
+	 for(int k=5;k>0;k--);
 	 HAL_Delay(5000);
-	 HAL_GPIO_TogglePin(GPIOC,GPIO_PIN_13);
+	*/
+
   }
   /* USER CODE END 3 */
 
