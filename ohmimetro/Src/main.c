@@ -39,18 +39,21 @@
 /* Includes ------------------------------------------------------------------*/
 #include "main.h"
 #include "stm32f1xx_hal.h"
-#include "OledChar.h"
-#include "OledDriver.h"
-#include "OledGrph.h"
+#include "adc.h"
+#include "spi.h"
+#include "gpio.h"
 
 /* USER CODE BEGIN Includes */
+#include <OledChar.h>
+#include <OledDriver.h>
+#include <OledGrph.h>
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
 
 /* USER CODE END Includes */
 
 /* Private variables ---------------------------------------------------------*/
-ADC_HandleTypeDef hadc1;
-
-SPI_HandleTypeDef hspi1;
 
 /* USER CODE BEGIN PV */
 /* Private variables ---------------------------------------------------------*/
@@ -59,9 +62,6 @@ SPI_HandleTypeDef hspi1;
 
 /* Private function prototypes -----------------------------------------------*/
 void SystemClock_Config(void);
-static void MX_GPIO_Init(void);
-static void MX_ADC1_Init(void);
-static void MX_SPI1_Init(void);
 
 /* USER CODE BEGIN PFP */
 /* Private function prototypes -----------------------------------------------*/
@@ -70,10 +70,15 @@ static void MX_SPI1_Init(void);
 
 /* USER CODE BEGIN 0 */
 extern const char tabelaad[4096][5];
-float R_fixa = 1000.0;        // Resistência fixa do divisor de tensão
-float leitura = 0.0;           // Armazena o valor lido pela entrada analógica (valor entre 0 e 4036)
-float Vx = 0.0;
-float resultado = 0.0;
+int R_fixa = 217;        // Resistência fixa do divisor de tensão
+int leitura = 0;           // Armazena o valor lido pela entrada analógica (valor entre 0 e 4096)
+int resultado = 0;
+int Vx;
+char string_r[20];
+
+//__HAL_TIM_SetCompare(&htim1, TIM_CHANNEL_1, 800); //Seta o servo 1 (Pino A8) para a posição fechado
+//__HAL_TIM_SetCompare(&htim1, TIM_CHANNEL_2, 1300); //Seta o servo 2 (Pino A9) para a posição fechado
+//__HAL_TIM_SetCompare(&htim1, TIM_CHANNEL_3, 1200); //Seta o servo 3 (Pino A10) para a posição fechado
 /* USER CODE END 0 */
 
 int main(void)
@@ -101,14 +106,11 @@ int main(void)
 
   /* Initialize all configured peripherals */
   MX_GPIO_Init();
-  MX_ADC1_Init();
   MX_SPI1_Init();
-
+  MX_ADC1_Init();
 
   /* USER CODE BEGIN 2 */
-  void OledInit();
-  void OledClear();
-  HAL_ADC_Start(&hadc1);
+  OledInit();
 
   /* USER CODE END 2 */
 
@@ -119,16 +121,32 @@ int main(void)
   /* USER CODE END WHILE */
 
   /* USER CODE BEGIN 3 */
-	  char string_r[20];
+	  HAL_ADC_Start(&hadc1);
 	  OledSetCursor(0,0);
-	  OledPutString("Resistencia: ");
-	  //OledPutString(sprintf(string_r,"%.2f",calculo_resistencia()));
+	  leitura = HAL_ADC_GetValue(&hadc1);
+	  char tensao[4] = {tabelaad[leitura][0],tabelaad[leitura][1],tabelaad[leitura][2],tabelaad[leitura][3]};
+	  Vx = atoi(tensao);
+	  resultado = (int)(((3300*R_fixa)/Vx) - R_fixa)-((((3300*R_fixa)/Vx) - R_fixa)*8/100);
+	  if (resultado >= 0){
+		  OledPutString("Resistencia: ");
+		  sprintf(string_r,"%d",resultado);
+		  OledSetCursor(0,2);
+		  OledPutString(string_r);
+		  OledPutString(" Ohms");
 
-	leitura = (float) HAL_ADC_GetValue(&hadc1); // Lê o valor de tensão do pino de entrada
-	Vx = (3.3*leitura)/4096.0;
-	resultado = ((3.3*R_fixa)/Vx) - R_fixa;
-	OledPutString(sprintf(string_r,"%.2f",resultado));
-	HAL_Delay(500);
+		 }
+
+	  else
+		  OledPutString("Circuito aberto");
+
+//	  OledPutChar(tabelaad[leitura][0]);
+//	  OledPutString(".");
+//	  OledPutChar(tabelaad[leitura][1]);
+//	  OledPutChar(tabelaad[leitura][2]);
+//	  OledPutChar(tabelaad[leitura][3]);
+	  HAL_Delay(500);
+	  OledClear();
+
   }
   /* USER CODE END 3 */
 
@@ -187,111 +205,8 @@ void SystemClock_Config(void)
   HAL_NVIC_SetPriority(SysTick_IRQn, 0, 0);
 }
 
-/* ADC1 init function */
-static void MX_ADC1_Init(void)
-{
-
-  ADC_ChannelConfTypeDef sConfig;
-
-    /**Common config 
-    */
-  hadc1.Instance = ADC1;
-  hadc1.Init.ScanConvMode = ADC_SCAN_DISABLE;
-  hadc1.Init.ContinuousConvMode = DISABLE;
-  hadc1.Init.DiscontinuousConvMode = DISABLE;
-  hadc1.Init.ExternalTrigConv = ADC_SOFTWARE_START;
-  hadc1.Init.DataAlign = ADC_DATAALIGN_RIGHT;
-  hadc1.Init.NbrOfConversion = 1;
-  if (HAL_ADC_Init(&hadc1) != HAL_OK)
-  {
-    _Error_Handler(__FILE__, __LINE__);
-  }
-
-    /**Configure Regular Channel 
-    */
-  sConfig.Channel = ADC_CHANNEL_3;
-  sConfig.Rank = 1;
-  sConfig.SamplingTime = ADC_SAMPLETIME_1CYCLE_5;
-  if (HAL_ADC_ConfigChannel(&hadc1, &sConfig) != HAL_OK)
-  {
-    _Error_Handler(__FILE__, __LINE__);
-  }
-
-}
-
-/* SPI1 init function */
-static void MX_SPI1_Init(void)
-{
-
-  /* SPI1 parameter configuration*/
-  hspi1.Instance = SPI1;
-  hspi1.Init.Mode = SPI_MODE_MASTER;
-  hspi1.Init.Direction = SPI_DIRECTION_2LINES;
-  hspi1.Init.DataSize = SPI_DATASIZE_8BIT;
-  hspi1.Init.CLKPolarity = SPI_POLARITY_HIGH;
-  hspi1.Init.CLKPhase = SPI_PHASE_2EDGE;
-  hspi1.Init.NSS = SPI_NSS_SOFT;
-  hspi1.Init.BaudRatePrescaler = SPI_BAUDRATEPRESCALER_2;
-  hspi1.Init.FirstBit = SPI_FIRSTBIT_MSB;
-  hspi1.Init.TIMode = SPI_TIMODE_DISABLE;
-  hspi1.Init.CRCCalculation = SPI_CRCCALCULATION_DISABLE;
-  hspi1.Init.CRCPolynomial = 10;
-  if (HAL_SPI_Init(&hspi1) != HAL_OK)
-  {
-    _Error_Handler(__FILE__, __LINE__);
-  }
-
-}
-
-/** Configure pins as 
-        * Analog 
-        * Input 
-        * Output
-        * EVENT_OUT
-        * EXTI
-*/
-static void MX_GPIO_Init(void)
-{
-
-  GPIO_InitTypeDef GPIO_InitStruct;
-
-  /* GPIO Ports Clock Enable */
-  __HAL_RCC_GPIOC_CLK_ENABLE();
-  __HAL_RCC_GPIOD_CLK_ENABLE();
-  __HAL_RCC_GPIOA_CLK_ENABLE();
-
-  /*Configure GPIO pin Output Level */
-  HAL_GPIO_WritePin(GPIOC, GPIO_PIN_13, GPIO_PIN_RESET);
-
-  /*Configure GPIO pin Output Level */
-  HAL_GPIO_WritePin(GPIOA, GPIO_PIN_0|GPIO_PIN_1|GPIO_PIN_2, GPIO_PIN_RESET);
-
-  /*Configure GPIO pin : PC13 */
-  GPIO_InitStruct.Pin = GPIO_PIN_13;
-  GPIO_InitStruct.Mode = GPIO_MODE_OUTPUT_PP;
-  GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
-  HAL_GPIO_Init(GPIOC, &GPIO_InitStruct);
-
-  /*Configure GPIO pins : PA0 PA1 PA2 */
-  GPIO_InitStruct.Pin = GPIO_PIN_0|GPIO_PIN_1|GPIO_PIN_2;
-  GPIO_InitStruct.Mode = GPIO_MODE_OUTPUT_PP;
-  GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
-  HAL_GPIO_Init(GPIOA, &GPIO_InitStruct);
-
-}
-
 /* USER CODE BEGIN 4 */
-//float calculo_resistencia() { // Calcula a resistência baseada na queda de tensão
-//	float R_fixa = 560.0;        // Resistência fixa do divisor de tensão
-//	float leitura = 0.0;           // Armazena o valor lido pela entrada analógica (valor entre 0 e 4036)
-//	float Vx = 0.0;
-//	float resultado = 0.0;
-//
-//	leitura = (float) HAL_ADC_GetValue(&hadc1); // Lê o valor de tensão do pino de entrada
-//	Vx = (3.3*leitura)/4096.0;
-//	resultado = ((3.3*R_fixa)/Vx) - R_fixa;
-//	return resultado; // Resistência que foi medida
-//}
+
 /* USER CODE END 4 */
 
 /**
