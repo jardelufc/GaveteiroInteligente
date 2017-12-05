@@ -50,7 +50,6 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-
 /* USER CODE END Includes */
 
 /* Private variables ---------------------------------------------------------*/
@@ -70,15 +69,11 @@ void SystemClock_Config(void);
 
 /* USER CODE BEGIN 0 */
 extern const char tabelaad[4096][5];
-int R_fixa = 217;        // Resistência fixa do divisor de tensão
+int R_fixa = 300;        // Resistência fixa do divisor de tensão
 int leitura = 0;           // Armazena o valor lido pela entrada analógica (valor entre 0 e 4096)
 int resultado = 0;
 int Vx;
 char string_r[20];
-
-//__HAL_TIM_SetCompare(&htim1, TIM_CHANNEL_1, 800); //Seta o servo 1 (Pino A8) para a posição fechado
-//__HAL_TIM_SetCompare(&htim1, TIM_CHANNEL_2, 1300); //Seta o servo 2 (Pino A9) para a posição fechado
-//__HAL_TIM_SetCompare(&htim1, TIM_CHANNEL_3, 1200); //Seta o servo 3 (Pino A10) para a posição fechado
 /* USER CODE END 0 */
 
 int main(void)
@@ -111,7 +106,6 @@ int main(void)
 
   /* USER CODE BEGIN 2 */
   OledInit();
-
   /* USER CODE END 2 */
 
   /* Infinite loop */
@@ -123,17 +117,16 @@ int main(void)
   /* USER CODE BEGIN 3 */
 	  HAL_ADC_Start(&hadc1);
 	  OledSetCursor(0,0);
-	  leitura = HAL_ADC_GetValue(&hadc1);
+	  leitura = HAL_ADC_GetValue(&hadc1); //pino A6
 	  char tensao[4] = {tabelaad[leitura][0],tabelaad[leitura][1],tabelaad[leitura][2],tabelaad[leitura][3]};
 	  Vx = atoi(tensao);
-	  resultado = (int)(((3300*R_fixa)/Vx) - R_fixa)-((((3300*R_fixa)/Vx) - R_fixa)*8/100);
-	  if (resultado >= 0){
+	  resultado = (int)(((3300*R_fixa)/Vx) - R_fixa); // -((((3300*R_fixa)/Vx) - R_fixa)*8/100);
+	  if (resultado < 9500){
 		  OledPutString("Resistencia: ");
 		  sprintf(string_r,"%d",resultado);
 		  OledSetCursor(0,2);
 		  OledPutString(string_r);
 		  OledPutString(" Ohms");
-
 		 }
 
 	  else
@@ -146,7 +139,6 @@ int main(void)
 //	  OledPutChar(tabelaad[leitura][3]);
 	  HAL_Delay(500);
 	  OledClear();
-
   }
   /* USER CODE END 3 */
 
