@@ -69,11 +69,14 @@ void SystemClock_Config(void);
 
 /* USER CODE BEGIN 0 */
 extern const char tabelaad[4096][5];
-int R_fixa = 300;        // Resistência fixa do divisor de tensão
+int R_fixa = 222;        // Resistência fixa do divisor de tensão
 int leitura = 0;           // Armazena o valor lido pela entrada analógica (valor entre 0 e 4096)
 int resultado = 0;
 int Vx;
 char string_r[20];
+int duas_casas;
+int tres_casas;
+int quatro_casas;
 /* USER CODE END 0 */
 
 int main(void)
@@ -120,12 +123,30 @@ int main(void)
 	  leitura = HAL_ADC_GetValue(&hadc1); //pino A6
 	  char tensao[4] = {tabelaad[leitura][0],tabelaad[leitura][1],tabelaad[leitura][2],tabelaad[leitura][3]};
 	  Vx = atoi(tensao);
-	  resultado = (int)(((3300*R_fixa)/Vx) - R_fixa); // -((((3300*R_fixa)/Vx) - R_fixa)*8/100);
-	  if (resultado < 9500){
+	  resultado = (int)(((3300*R_fixa)/Vx) - R_fixa);
+	  duas_casas = (int)((((3300*R_fixa)/Vx) - R_fixa) -((((3300*R_fixa)/Vx) - R_fixa)*12/100));
+	  tres_casas = (int)((((3300*R_fixa)/Vx) - R_fixa) -((((3300*R_fixa)/Vx) - R_fixa)*4/100));
+	  quatro_casas = (int)((((3300*R_fixa)/Vx) - R_fixa) -((((3300*R_fixa)/Vx) + R_fixa)*8/100));
+	  if (resultado >= 0){
 		  OledPutString("Resistencia: ");
-		  sprintf(string_r,"%d",resultado);
-		  OledSetCursor(0,2);
-		  OledPutString(string_r);
+		  if (resultado > 0 & resultado < 100){
+			  sprintf(string_r,"%d",duas_casas);
+			  OledSetCursor(0,2);
+			  OledPutString(string_r);
+		  }
+		  else if (resultado > 100 & resultado < 1000){
+			  sprintf(string_r,"%d",tres_casas);
+			  OledSetCursor(0,2);
+			  OledPutString(string_r);
+		  }
+		  else if (resultado > 1000 & resultado < 10000){
+			  sprintf(string_r,"%d",quatro_casas);
+			  OledSetCursor(0,2);
+			  OledPutString(string_r);
+		  }
+//		  sprintf(string_r,"%d",resultado);
+//		  OledSetCursor(0,2);
+//		  OledPutString(string_r);
 		  OledPutString(" Ohms");
 		 }
 
@@ -137,7 +158,7 @@ int main(void)
 //	  OledPutChar(tabelaad[leitura][1]);
 //	  OledPutChar(tabelaad[leitura][2]);
 //	  OledPutChar(tabelaad[leitura][3]);
-	  HAL_Delay(500);
+	  HAL_Delay(2000);
 	  OledClear();
   }
   /* USER CODE END 3 */
