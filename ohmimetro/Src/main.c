@@ -69,7 +69,7 @@ void SystemClock_Config(void);
 
 /* USER CODE BEGIN 0 */
 extern const char tabelaad[4096][5];
-int R_fixa = 222;        // Resistência fixa do divisor de tensão
+int R_fixa = 218;        // Resistência fixa do divisor de tensão
 int leitura = 0;           // Armazena o valor lido pela entrada analógica (valor entre 0 e 4096)
 int resultado = 0;
 int Vx;
@@ -89,7 +89,7 @@ int main(void)
   /* MCU Configuration----------------------------------------------------------*/
 
   /* Reset of all peripherals, Initializes the Flash interface and the Systick. */
-  HAL_Init();
+   HAL_Init();
 
   /* USER CODE BEGIN Init */
 
@@ -109,6 +109,7 @@ int main(void)
 
   /* USER CODE BEGIN 2 */
   OledInit();
+
   /* USER CODE END 2 */
 
   /* Infinite loop */
@@ -123,23 +124,23 @@ int main(void)
 	  leitura = HAL_ADC_GetValue(&hadc1); //pino A6
 	  char tensao[4] = {tabelaad[leitura][0],tabelaad[leitura][1],tabelaad[leitura][2],tabelaad[leitura][3]};
 	  Vx = atoi(tensao);
-	  resultado = (int)(((3300*R_fixa)/Vx) - R_fixa);
-	  duas_casas = (int)((((3300*R_fixa)/Vx) - R_fixa) -((((3300*R_fixa)/Vx) - R_fixa)*12/100));
-	  tres_casas = (int)((((3300*R_fixa)/Vx) - R_fixa) -((((3300*R_fixa)/Vx) - R_fixa)*4/100));
-	  quatro_casas = (int)((((3300*R_fixa)/Vx) - R_fixa) -((((3300*R_fixa)/Vx) + R_fixa)*8/100));
+	  resultado = (int)(((3290*R_fixa)/Vx) - R_fixa);
+	  duas_casas = (int)((((3290*R_fixa)/Vx) - R_fixa) -((((3290*R_fixa)/Vx) - R_fixa)*10/100));
+	  tres_casas = (int)((((3290*R_fixa)/Vx) - R_fixa) -((((3290*R_fixa)/Vx) - R_fixa)*7/100));
+	  quatro_casas = (int)((((3290*R_fixa)/Vx) - R_fixa) -((((3290*R_fixa)/Vx) + R_fixa)*20/100));
 	  if (resultado >= 0){
 		  OledPutString("Resistencia: ");
 		  if (resultado > 0 & resultado < 100){
-			  sprintf(string_r,"%d",duas_casas);
+			  sprintf(string_r,"%d",resultado);
 			  OledSetCursor(0,2);
 			  OledPutString(string_r);
 		  }
-		  else if (resultado > 100 & resultado < 1000){
+		  else if (resultado >= 100 & resultado < 1000){
 			  sprintf(string_r,"%d",tres_casas);
 			  OledSetCursor(0,2);
 			  OledPutString(string_r);
 		  }
-		  else if (resultado > 1000 & resultado < 10000){
+		  else if (resultado >= 1000 & resultado < 10000){
 			  sprintf(string_r,"%d",quatro_casas);
 			  OledSetCursor(0,2);
 			  OledPutString(string_r);
