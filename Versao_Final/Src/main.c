@@ -44,8 +44,15 @@
 #include "tim.h"
 #include "gpio.h"
 
+
 /* USER CODE BEGIN Includes */
 #include <stdbool.h>
+#include <OledChar.h>
+#include <OledDriver.h>
+#include <OledGrph.h>
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
 /* USER CODE END Includes */
 
 /* Private variables ---------------------------------------------------------*/
@@ -68,11 +75,12 @@ extern const char tabelaad[4096][5];
 int R_fixa = 220;        // Resistência fixa do divisor de tensão
 int leitura = 0;           // Armazena o valor lido pela entrada analógica (valor entre 0 e 4096)
 int resultado = 0;
-int Vx;
+int Vx=0;
 char string_r[20];
 bool btn_1 = false;
 bool btn_2 = false;
 bool btn_3 = false;
+
 /* USER CODE END 0 */
 
 int main(void)
@@ -142,8 +150,8 @@ int main(void)
 			  if (HAL_GPIO_ReadPin(GPIOB, GPIO_PIN_3)==GPIO_PIN_SET){
 				  __HAL_TIM_SET_COMPARE(&htim1, TIM_CHANNEL_1, 870);
 				  HAL_Delay(1000);
-				  OledClear();
 				  btn_1 = false;
+				  OledClear();
 			  }
 		  }
 	  }
@@ -158,8 +166,8 @@ int main(void)
 	  		  if (HAL_GPIO_ReadPin(GPIOB, GPIO_PIN_4)){
 	  			__HAL_TIM_SET_COMPARE(&htim1, TIM_CHANNEL_2, 1300);
 	  			HAL_Delay(1000);
-	  			OledClear();
 	  			btn_2 = false;
+	  			OledClear();
 	  		  }
 	  	  }
 	  }
@@ -174,26 +182,26 @@ int main(void)
 	  		  if (HAL_GPIO_ReadPin(GPIOB, GPIO_PIN_5)){
 	  			  __HAL_TIM_SET_COMPARE(&htim1, TIM_CHANNEL_3, 1300);
 	  			  HAL_Delay(1000);
-	  			  OledClear();
 	  			  btn_3 = false;
+	  			  OledClear();
 	  		  }
 	  	  }
 	  }
-	  leitura = HAL_ADC_GetValue(&hadc1); //pino A6
+	  int leitura = HAL_ADC_GetValue(&hadc1); //pino A6
 	  char tensao[4] = {tabelaad[leitura][0],tabelaad[leitura][1],tabelaad[leitura][2],tabelaad[leitura][3]};
-	  Vx = atoi(tensao);
+	  int Vx = atoi(tensao);
 	  resultado = (int)(((3420*R_fixa)/Vx) - R_fixa);
-	 // duas_casas = (int)((((3420*R_fixa)/Vx) - R_fixa) -((((3290*R_fixa)/Vx) - R_fixa)*10/100));
-	  tres_casas = (int)((((3420*R_fixa)/Vx) - R_fixa) -((((3420*R_fixa)/Vx) - R_fixa)*7/100));
-	  quatro_casas = (int)((((3420*R_fixa)/Vx) - R_fixa) -((((3420*R_fixa)/Vx) + R_fixa)*10/100));
-	  if (resultado > 0 & resultado < 2000){
+	  duas_casas = (int)(resultado -(resultado*10/100));
+	  tres_casas = (int)(resultado + (resultado*10/100));
+	  quatro_casas = (int)(resultado +(resultado*20/100));
+	  if ((resultado > 0) & (resultado < 2000)){
 		  OledPutString("Resistencia: ");
-		  if (resultado > 0 & resultado < 100){
-			  sprintf(string_r,"%d",resultado);
+		  if ((resultado > 0) & (resultado < 100)){
+			  sprintf(string_r,"%d",duas_casas);
 			  OledSetCursor(0,2);
 			  OledPutString(string_r);
-			 // HAL_Delay(1000);
-			  if(resultado >0 & resultado < 15){
+			  OledPutString(" Ohms");
+			  if((resultado > 0) & (resultado < 15)){
 				  __HAL_TIM_SET_COMPARE(&htim1, TIM_CHANNEL_1, 150);
 				  OledClear();
 				  OledSetCursor(0,0);
@@ -206,18 +214,18 @@ int main(void)
 					  if (HAL_GPIO_ReadPin(GPIOB, GPIO_PIN_3)){
 						  __HAL_TIM_SET_COMPARE(&htim1, TIM_CHANNEL_1, 870);
 						  HAL_Delay(1000);
-						  OledClear();
 						  btn_1 = false;
+						  OledClear();
 					  }
 				  }
 			  }
 		  	}
-		  if (resultado >= 100 & resultado < 1000){
-			  sprintf(string_r,"%d",resultado);
+		  if ((resultado >= 100) & (resultado < 1000)){
+			  sprintf(string_r,"%d",tres_casas);
 			  OledSetCursor(0,2);
 			  OledPutString(string_r);
-			  //HAL_Delay(1000);
-			  if(resultado >280 & resultado < 350){
+			  OledPutString(" Ohms");
+			  if((resultado >260) & (resultado < 350)){
 				  __HAL_TIM_SET_COMPARE(&htim1, TIM_CHANNEL_2, 480);
 				  OledClear();
 				  OledSetCursor(0,0);
@@ -230,18 +238,18 @@ int main(void)
 					  if (HAL_GPIO_ReadPin(GPIOB, GPIO_PIN_4)){
 						  __HAL_TIM_SET_COMPARE(&htim1, TIM_CHANNEL_2, 1300);
 						  HAL_Delay(1000);
-						  OledClear();
 						  btn_2 = false;
+						  OledClear();
 					  }
 				  }
 			  }
 		  }
-		  if (resultado >= 1000 & resultado < 10000){
-			  sprintf(string_r,"%d",resultado);
+		  if ((resultado >= 1000) & (resultado < 10000)){
+			  sprintf(string_r,"%d",quatro_casas);
 			  OledSetCursor(0,2);
 			  OledPutString(string_r);
-			 // HAL_Delay(1000);
-			  if(resultado >=1000 & resultado <= 1400){
+			  OledPutString(" Ohms");
+			  if((quatro >=1000) & (resultado <= 1400)){
 				  __HAL_TIM_SET_COMPARE(&htim1, TIM_CHANNEL_3, 150);
 				  OledClear();
 				  OledSetCursor(0,0);
@@ -254,8 +262,8 @@ int main(void)
 					  if (HAL_GPIO_ReadPin(GPIOB, GPIO_PIN_5)){
 						  __HAL_TIM_SET_COMPARE(&htim1, TIM_CHANNEL_3, 1300);
 						  HAL_Delay(1000);
-						  OledClear();
 						  btn_3 = false;
+						  OledClear();
 					  }
 				  }
 			  }
@@ -263,7 +271,7 @@ int main(void)
 	  //		  sprintf(string_r,"%d",resultado);
 	  //		  OledSetCursor(0,2);
 	  //		  OledPutString(string_r);
-		  OledPutString(" Ohms");
+
 	  } else
 		  OledPutString("Circuito aberto");
 	  HAL_Delay(1000);
