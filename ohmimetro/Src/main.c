@@ -41,6 +41,7 @@
 #include "stm32f1xx_hal.h"
 #include "adc.h"
 #include "spi.h"
+#include "tim.h"
 #include "gpio.h"
 
 /* USER CODE BEGIN Includes */
@@ -89,7 +90,7 @@ int main(void)
   /* MCU Configuration----------------------------------------------------------*/
 
   /* Reset of all peripherals, Initializes the Flash interface and the Systick. */
-   HAL_Init();
+  HAL_Init();
 
   /* USER CODE BEGIN Init */
 
@@ -106,9 +107,14 @@ int main(void)
   MX_GPIO_Init();
   MX_SPI1_Init();
   MX_ADC1_Init();
+  MX_TIM1_Init();
 
   /* USER CODE BEGIN 2 */
   OledInit();
+  HAL_TIM_PWM_Start(&htim1, TIM_CHANNEL_1); // Inicializa os timers para geração da PWM nos pinos A8, A9, A10
+  HAL_TIM_PWM_Start(&htim1, TIM_CHANNEL_2);
+  HAL_TIM_PWM_Start(&htim1, TIM_CHANNEL_3);
+  HAL_ADC_Start(&hadc1);
 
   /* USER CODE END 2 */
 
@@ -119,7 +125,7 @@ int main(void)
   /* USER CODE END WHILE */
 
   /* USER CODE BEGIN 3 */
-	  HAL_ADC_Start(&hadc1);
+
 	  OledSetCursor(0,0);
 	  leitura = HAL_ADC_GetValue(&hadc1); //pino A6
 	  char tensao[4] = {tabelaad[leitura][0],tabelaad[leitura][1],tabelaad[leitura][2],tabelaad[leitura][3]};
@@ -153,6 +159,11 @@ int main(void)
 
 	  else
 		  OledPutString("Circuito aberto");
+	  if(resultado >=1100 & resultado <= 1300){
+		  //__HAL_TIM_SetCompare(&htim1, TIM_CHANNEL_3, 200);]
+		  _HAL_TIM_SET_COMPARE(&htim1, TIM_CHANNEL_3, 200);
+		  HAL_Delay(5000);
+	  }
 
 //	  OledPutChar(tabelaad[leitura][0]);
 //	  OledPutString(".");
@@ -161,6 +172,7 @@ int main(void)
 //	  OledPutChar(tabelaad[leitura][3]);
 	  HAL_Delay(2000);
 	  OledClear();
+
   }
   /* USER CODE END 3 */
 
