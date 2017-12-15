@@ -7913,13 +7913,13 @@ int main(void)
  8002b5e:	4603      	mov	r3, r0
  8002b60:	2b00      	cmp	r3, #0
  8002b62:	d02d      	beq.n	8002bc0 <main+0x100>
-		  __HAL_TIM_SET_COMPARE(&htim1, TIM_CHANNEL_1, 150);
- 8002b64:	4b42      	ldr	r3, [pc, #264]	; (8002c70 <main+0x1b0>)
- 8002b66:	681b      	ldr	r3, [r3, #0]
- 8002b68:	2296      	movs	r2, #150	; 0x96
- 8002b6a:	635a      	str	r2, [r3, #52]	; 0x34
 		  OledClear();
- 8002b6c:	f7ff fd35 	bl	80025da <OledClear>
+ 8002b64:	f7ff fd39 	bl	80025da <OledClear>
+		  __HAL_TIM_SET_COMPARE(&htim1, TIM_CHANNEL_1, 150);
+ 8002b68:	4b41      	ldr	r3, [pc, #260]	; (8002c70 <main+0x1b0>)
+ 8002b6a:	681b      	ldr	r3, [r3, #0]
+ 8002b6c:	2296      	movs	r2, #150	; 0x96
+ 8002b6e:	635a      	str	r2, [r3, #52]	; 0x34
 		  OledSetCursor(0,0);
  8002b70:	2100      	movs	r1, #0
  8002b72:	2000      	movs	r0, #0
@@ -7943,20 +7943,20 @@ int main(void)
  8002b96:	4603      	mov	r3, r0
  8002b98:	2b01      	cmp	r3, #1
  8002b9a:	d10d      	bne.n	8002bb8 <main+0xf8>
-				  __HAL_TIM_SET_COMPARE(&htim1, TIM_CHANNEL_1, 870);
- 8002b9c:	4b34      	ldr	r3, [pc, #208]	; (8002c70 <main+0x1b0>)
- 8002b9e:	681b      	ldr	r3, [r3, #0]
- 8002ba0:	f240 3266 	movw	r2, #870	; 0x366
- 8002ba4:	635a      	str	r2, [r3, #52]	; 0x34
-				  HAL_Delay(1000);
- 8002ba6:	f44f 707a 	mov.w	r0, #1000	; 0x3e8
- 8002baa:	f7fd fb19 	bl	80001e0 <HAL_Delay>
-				  btn_1 = false;
- 8002bae:	4b34      	ldr	r3, [pc, #208]	; (8002c80 <main+0x1c0>)
- 8002bb0:	2200      	movs	r2, #0
- 8002bb2:	701a      	strb	r2, [r3, #0]
 				  OledClear();
- 8002bb4:	f7ff fd11 	bl	80025da <OledClear>
+ 8002b9c:	f7ff fd1d 	bl	80025da <OledClear>
+				  __HAL_TIM_SET_COMPARE(&htim1, TIM_CHANNEL_1, 870);
+ 8002ba0:	4b33      	ldr	r3, [pc, #204]	; (8002c70 <main+0x1b0>)
+ 8002ba2:	681b      	ldr	r3, [r3, #0]
+ 8002ba4:	f240 3266 	movw	r2, #870	; 0x366
+ 8002ba8:	635a      	str	r2, [r3, #52]	; 0x34
+				  HAL_Delay(1000);
+ 8002baa:	f44f 707a 	mov.w	r0, #1000	; 0x3e8
+ 8002bae:	f7fd fb17 	bl	80001e0 <HAL_Delay>
+				  btn_1 = false;
+ 8002bb2:	4b33      	ldr	r3, [pc, #204]	; (8002c80 <main+0x1c0>)
+ 8002bb4:	2200      	movs	r2, #0
+ 8002bb6:	701a      	strb	r2, [r3, #0]
 		  while(btn_1){
  8002bb8:	4b31      	ldr	r3, [pc, #196]	; (8002c80 <main+0x1c0>)
  8002bba:	781b      	ldrb	r3, [r3, #0]
@@ -7972,15 +7972,15 @@ int main(void)
  8002bc8:	4603      	mov	r3, r0
  8002bca:	2b00      	cmp	r3, #0
  8002bcc:	d032      	beq.n	8002c34 <main+0x174>
-		  __HAL_TIM_SET_COMPARE(&htim1, TIM_CHANNEL_2, 480);
- 8002bce:	4b28      	ldr	r3, [pc, #160]	; (8002c70 <main+0x1b0>)
- 8002bd0:	681b      	ldr	r3, [r3, #0]
- 8002bd2:	3334      	adds	r3, #52	; 0x34
- 8002bd4:	3304      	adds	r3, #4
- 8002bd6:	f44f 72f0 	mov.w	r2, #480	; 0x1e0
- 8002bda:	601a      	str	r2, [r3, #0]
 		  OledClear();
- 8002bdc:	f7ff fcfd 	bl	80025da <OledClear>
+ 8002bce:	f7ff fd04 	bl	80025da <OledClear>
+		  __HAL_TIM_SET_COMPARE(&htim1, TIM_CHANNEL_2, 450);
+ 8002bd2:	4b27      	ldr	r3, [pc, #156]	; (8002c70 <main+0x1b0>)
+ 8002bd4:	681b      	ldr	r3, [r3, #0]
+ 8002bd6:	3334      	adds	r3, #52	; 0x34
+ 8002bd8:	3304      	adds	r3, #4
+ 8002bda:	f44f 72e1 	mov.w	r2, #450	; 0x1c2
+ 8002bde:	601a      	str	r2, [r3, #0]
 		  OledSetCursor(0,0);
  8002be0:	2100      	movs	r1, #0
  8002be2:	2000      	movs	r0, #0
@@ -8004,22 +8004,22 @@ int main(void)
  8002c06:	4603      	mov	r3, r0
  8002c08:	2b00      	cmp	r3, #0
  8002c0a:	d00f      	beq.n	8002c2c <main+0x16c>
-	  			__HAL_TIM_SET_COMPARE(&htim1, TIM_CHANNEL_2, 1300);
- 8002c0c:	4b18      	ldr	r3, [pc, #96]	; (8002c70 <main+0x1b0>)
- 8002c0e:	681b      	ldr	r3, [r3, #0]
- 8002c10:	3334      	adds	r3, #52	; 0x34
- 8002c12:	3304      	adds	r3, #4
- 8002c14:	f240 5214 	movw	r2, #1300	; 0x514
- 8002c18:	601a      	str	r2, [r3, #0]
-	  			HAL_Delay(1000);
- 8002c1a:	f44f 707a 	mov.w	r0, #1000	; 0x3e8
- 8002c1e:	f7fd fadf 	bl	80001e0 <HAL_Delay>
-	  			btn_2 = false;
- 8002c22:	4b19      	ldr	r3, [pc, #100]	; (8002c88 <main+0x1c8>)
- 8002c24:	2200      	movs	r2, #0
- 8002c26:	701a      	strb	r2, [r3, #0]
 	  			OledClear();
- 8002c28:	f7ff fcd7 	bl	80025da <OledClear>
+ 8002c0c:	f7ff fce5 	bl	80025da <OledClear>
+	  			__HAL_TIM_SET_COMPARE(&htim1, TIM_CHANNEL_2, 1300);
+ 8002c10:	4b17      	ldr	r3, [pc, #92]	; (8002c70 <main+0x1b0>)
+ 8002c12:	681b      	ldr	r3, [r3, #0]
+ 8002c14:	3334      	adds	r3, #52	; 0x34
+ 8002c16:	3304      	adds	r3, #4
+ 8002c18:	f240 5214 	movw	r2, #1300	; 0x514
+ 8002c1c:	601a      	str	r2, [r3, #0]
+	  			HAL_Delay(1000);
+ 8002c1e:	f44f 707a 	mov.w	r0, #1000	; 0x3e8
+ 8002c22:	f7fd fadd 	bl	80001e0 <HAL_Delay>
+	  			btn_2 = false;
+ 8002c26:	4b18      	ldr	r3, [pc, #96]	; (8002c88 <main+0x1c8>)
+ 8002c28:	2200      	movs	r2, #0
+ 8002c2a:	701a      	strb	r2, [r3, #0]
 	  	  while(btn_2){
  8002c2c:	4b16      	ldr	r3, [pc, #88]	; (8002c88 <main+0x1c8>)
  8002c2e:	781b      	ldrb	r3, [r3, #0]
@@ -8035,15 +8035,15 @@ int main(void)
  8002c3c:	4603      	mov	r3, r0
  8002c3e:	2b00      	cmp	r3, #0
  8002c40:	d043      	beq.n	8002cca <main+0x20a>
-		  __HAL_TIM_SET_COMPARE(&htim1, TIM_CHANNEL_3, 150);
- 8002c42:	4b0b      	ldr	r3, [pc, #44]	; (8002c70 <main+0x1b0>)
- 8002c44:	681b      	ldr	r3, [r3, #0]
- 8002c46:	3334      	adds	r3, #52	; 0x34
- 8002c48:	3308      	adds	r3, #8
- 8002c4a:	2296      	movs	r2, #150	; 0x96
- 8002c4c:	601a      	str	r2, [r3, #0]
 		  OledClear();
- 8002c4e:	f7ff fcc4 	bl	80025da <OledClear>
+ 8002c42:	f7ff fcca 	bl	80025da <OledClear>
+		  __HAL_TIM_SET_COMPARE(&htim1, TIM_CHANNEL_3, 150);
+ 8002c46:	4b0a      	ldr	r3, [pc, #40]	; (8002c70 <main+0x1b0>)
+ 8002c48:	681b      	ldr	r3, [r3, #0]
+ 8002c4a:	3334      	adds	r3, #52	; 0x34
+ 8002c4c:	3308      	adds	r3, #8
+ 8002c4e:	2296      	movs	r2, #150	; 0x96
+ 8002c50:	601a      	str	r2, [r3, #0]
 		  OledSetCursor(0,0);
  8002c52:	2100      	movs	r1, #0
  8002c54:	2000      	movs	r0, #0
@@ -8076,22 +8076,22 @@ int main(void)
  8002c9c:	4603      	mov	r3, r0
  8002c9e:	2b00      	cmp	r3, #0
  8002ca0:	d00f      	beq.n	8002cc2 <main+0x202>
-	  			  __HAL_TIM_SET_COMPARE(&htim1, TIM_CHANNEL_3, 1300);
- 8002ca2:	4ba3      	ldr	r3, [pc, #652]	; (8002f30 <main+0x470>)
- 8002ca4:	681b      	ldr	r3, [r3, #0]
- 8002ca6:	3334      	adds	r3, #52	; 0x34
- 8002ca8:	3308      	adds	r3, #8
- 8002caa:	f240 5214 	movw	r2, #1300	; 0x514
- 8002cae:	601a      	str	r2, [r3, #0]
-	  			  HAL_Delay(1000);
- 8002cb0:	f44f 707a 	mov.w	r0, #1000	; 0x3e8
- 8002cb4:	f7fd fa94 	bl	80001e0 <HAL_Delay>
-	  			  btn_3 = false;
- 8002cb8:	4b9e      	ldr	r3, [pc, #632]	; (8002f34 <main+0x474>)
- 8002cba:	2200      	movs	r2, #0
- 8002cbc:	701a      	strb	r2, [r3, #0]
 	  			  OledClear();
- 8002cbe:	f7ff fc8c 	bl	80025da <OledClear>
+ 8002ca2:	f7ff fc9a 	bl	80025da <OledClear>
+	  			  __HAL_TIM_SET_COMPARE(&htim1, TIM_CHANNEL_3, 1300);
+ 8002ca6:	4ba2      	ldr	r3, [pc, #648]	; (8002f30 <main+0x470>)
+ 8002ca8:	681b      	ldr	r3, [r3, #0]
+ 8002caa:	3334      	adds	r3, #52	; 0x34
+ 8002cac:	3308      	adds	r3, #8
+ 8002cae:	f240 5214 	movw	r2, #1300	; 0x514
+ 8002cb2:	601a      	str	r2, [r3, #0]
+	  			  HAL_Delay(1000);
+ 8002cb4:	f44f 707a 	mov.w	r0, #1000	; 0x3e8
+ 8002cb8:	f7fd fa92 	bl	80001e0 <HAL_Delay>
+	  			  btn_3 = false;
+ 8002cbc:	4b9d      	ldr	r3, [pc, #628]	; (8002f34 <main+0x474>)
+ 8002cbe:	2200      	movs	r2, #0
+ 8002cc0:	701a      	strb	r2, [r3, #0]
 	  	  while(btn_3){
  8002cc2:	4b9c      	ldr	r3, [pc, #624]	; (8002f34 <main+0x474>)
  8002cc4:	781b      	ldrb	r3, [r3, #0]
@@ -8146,10 +8146,10 @@ int main(void)
  8002d1c:	4618      	mov	r0, r3
  8002d1e:	f000 fc38 	bl	8003592 <atoi>
  8002d22:	60b8      	str	r0, [r7, #8]
-	  resultado = (int)(((3420*R_fixa)/Vx) - R_fixa);
+	  resultado = (int)(((3330*R_fixa)/Vx) - R_fixa);
  8002d24:	4b86      	ldr	r3, [pc, #536]	; (8002f40 <main+0x480>)
  8002d26:	681b      	ldr	r3, [r3, #0]
- 8002d28:	f640 525c 	movw	r2, #3420	; 0xd5c
+ 8002d28:	f640 5202 	movw	r2, #3330	; 0xd02
  8002d2c:	fb02 f203 	mul.w	r2, r2, r3
  8002d30:	68bb      	ldr	r3, [r7, #8]
  8002d32:	fb92 f2f3 	sdiv	r2, r2, r3
@@ -8235,8 +8235,8 @@ int main(void)
  8002dd8:	b2db      	uxtb	r3, r3
  8002dda:	2b00      	cmp	r3, #0
  8002ddc:	d053      	beq.n	8002e86 <main+0x3c6>
-			  sprintf(string_r,"%d",duas_casas);
- 8002dde:	69fa      	ldr	r2, [r7, #28]
+			  sprintf(string_r,"%d",resultado);
+ 8002dde:	693a      	ldr	r2, [r7, #16]
  8002de0:	495a      	ldr	r1, [pc, #360]	; (8002f4c <main+0x48c>)
  8002de2:	485b      	ldr	r0, [pc, #364]	; (8002f50 <main+0x490>)
  8002de4:	f000 fbfe 	bl	80035e4 <siprintf>
@@ -8250,15 +8250,15 @@ int main(void)
 			  OledPutString(" Ohms");
  8002df6:	4857      	ldr	r0, [pc, #348]	; (8002f54 <main+0x494>)
  8002df8:	f7ff fa94 	bl	8002324 <OledPutString>
-			  if((resultado > 0) & (resultado < 15)){
+			  if((resultado > 6) & (resultado < 14)){
  8002dfc:	693b      	ldr	r3, [r7, #16]
- 8002dfe:	2b00      	cmp	r3, #0
+ 8002dfe:	2b06      	cmp	r3, #6
  8002e00:	bfcc      	ite	gt
  8002e02:	2301      	movgt	r3, #1
  8002e04:	2300      	movle	r3, #0
  8002e06:	b2da      	uxtb	r2, r3
  8002e08:	693b      	ldr	r3, [r7, #16]
- 8002e0a:	2b0e      	cmp	r3, #14
+ 8002e0a:	2b0d      	cmp	r3, #13
  8002e0c:	bfd4      	ite	le
  8002e0e:	2301      	movle	r3, #1
  8002e10:	2300      	movgt	r3, #0
@@ -8267,13 +8267,13 @@ int main(void)
  8002e16:	b2db      	uxtb	r3, r3
  8002e18:	2b00      	cmp	r3, #0
  8002e1a:	d034      	beq.n	8002e86 <main+0x3c6>
-				  __HAL_TIM_SET_COMPARE(&htim1, TIM_CHANNEL_1, 150);
- 8002e1c:	4b44      	ldr	r3, [pc, #272]	; (8002f30 <main+0x470>)
- 8002e1e:	681b      	ldr	r3, [r3, #0]
- 8002e20:	2296      	movs	r2, #150	; 0x96
- 8002e22:	635a      	str	r2, [r3, #52]	; 0x34
 				  OledClear();
- 8002e24:	f7ff fbd9 	bl	80025da <OledClear>
+ 8002e1c:	f7ff fbdd 	bl	80025da <OledClear>
+				  __HAL_TIM_SET_COMPARE(&htim1, TIM_CHANNEL_1, 150);
+ 8002e20:	4b43      	ldr	r3, [pc, #268]	; (8002f30 <main+0x470>)
+ 8002e22:	681b      	ldr	r3, [r3, #0]
+ 8002e24:	2296      	movs	r2, #150	; 0x96
+ 8002e26:	635a      	str	r2, [r3, #52]	; 0x34
 				  OledSetCursor(0,0);
  8002e28:	2100      	movs	r1, #0
  8002e2a:	2000      	movs	r0, #0
@@ -8304,20 +8304,20 @@ int main(void)
  8002e5c:	4603      	mov	r3, r0
  8002e5e:	2b00      	cmp	r3, #0
  8002e60:	d00d      	beq.n	8002e7e <main+0x3be>
-						  __HAL_TIM_SET_COMPARE(&htim1, TIM_CHANNEL_1, 870);
- 8002e62:	4b33      	ldr	r3, [pc, #204]	; (8002f30 <main+0x470>)
- 8002e64:	681b      	ldr	r3, [r3, #0]
- 8002e66:	f240 3266 	movw	r2, #870	; 0x366
- 8002e6a:	635a      	str	r2, [r3, #52]	; 0x34
-						  HAL_Delay(1000);
- 8002e6c:	f44f 707a 	mov.w	r0, #1000	; 0x3e8
- 8002e70:	f7fd f9b6 	bl	80001e0 <HAL_Delay>
-						  btn_1 = false;
- 8002e74:	4b39      	ldr	r3, [pc, #228]	; (8002f5c <main+0x49c>)
- 8002e76:	2200      	movs	r2, #0
- 8002e78:	701a      	strb	r2, [r3, #0]
 						  OledClear();
- 8002e7a:	f7ff fbae 	bl	80025da <OledClear>
+ 8002e62:	f7ff fbba 	bl	80025da <OledClear>
+						  __HAL_TIM_SET_COMPARE(&htim1, TIM_CHANNEL_1, 870);
+ 8002e66:	4b32      	ldr	r3, [pc, #200]	; (8002f30 <main+0x470>)
+ 8002e68:	681b      	ldr	r3, [r3, #0]
+ 8002e6a:	f240 3266 	movw	r2, #870	; 0x366
+ 8002e6e:	635a      	str	r2, [r3, #52]	; 0x34
+						  HAL_Delay(1000);
+ 8002e70:	f44f 707a 	mov.w	r0, #1000	; 0x3e8
+ 8002e74:	f7fd f9b4 	bl	80001e0 <HAL_Delay>
+						  btn_1 = false;
+ 8002e78:	4b38      	ldr	r3, [pc, #224]	; (8002f5c <main+0x49c>)
+ 8002e7a:	2200      	movs	r2, #0
+ 8002e7c:	701a      	strb	r2, [r3, #0]
 				  while(btn_1){
  8002e7e:	4b37      	ldr	r3, [pc, #220]	; (8002f5c <main+0x49c>)
  8002e80:	781b      	ldrb	r3, [r3, #0]
@@ -8378,15 +8378,15 @@ int main(void)
  8002ee8:	b2db      	uxtb	r3, r3
  8002eea:	2b00      	cmp	r3, #0
  8002eec:	d057      	beq.n	8002f9e <main+0x4de>
-				  __HAL_TIM_SET_COMPARE(&htim1, TIM_CHANNEL_2, 480);
- 8002eee:	4b10      	ldr	r3, [pc, #64]	; (8002f30 <main+0x470>)
- 8002ef0:	681b      	ldr	r3, [r3, #0]
- 8002ef2:	3334      	adds	r3, #52	; 0x34
- 8002ef4:	3304      	adds	r3, #4
- 8002ef6:	f44f 72f0 	mov.w	r2, #480	; 0x1e0
- 8002efa:	601a      	str	r2, [r3, #0]
 				  OledClear();
- 8002efc:	f7ff fb6d 	bl	80025da <OledClear>
+ 8002eee:	f7ff fb74 	bl	80025da <OledClear>
+				  __HAL_TIM_SET_COMPARE(&htim1, TIM_CHANNEL_2, 450);
+ 8002ef2:	4b0f      	ldr	r3, [pc, #60]	; (8002f30 <main+0x470>)
+ 8002ef4:	681b      	ldr	r3, [r3, #0]
+ 8002ef6:	3334      	adds	r3, #52	; 0x34
+ 8002ef8:	3304      	adds	r3, #4
+ 8002efa:	f44f 72e1 	mov.w	r2, #450	; 0x1c2
+ 8002efe:	601a      	str	r2, [r3, #0]
 				  OledSetCursor(0,0);
  8002f00:	2100      	movs	r1, #0
  8002f02:	2000      	movs	r0, #0
@@ -8432,22 +8432,22 @@ int main(void)
  8002f70:	4603      	mov	r3, r0
  8002f72:	2b00      	cmp	r3, #0
  8002f74:	d00f      	beq.n	8002f96 <main+0x4d6>
-						  __HAL_TIM_SET_COMPARE(&htim1, TIM_CHANNEL_2, 1300);
- 8002f76:	4b48      	ldr	r3, [pc, #288]	; (8003098 <main+0x5d8>)
- 8002f78:	681b      	ldr	r3, [r3, #0]
- 8002f7a:	3334      	adds	r3, #52	; 0x34
- 8002f7c:	3304      	adds	r3, #4
- 8002f7e:	f240 5214 	movw	r2, #1300	; 0x514
- 8002f82:	601a      	str	r2, [r3, #0]
-						  HAL_Delay(1000);
- 8002f84:	f44f 707a 	mov.w	r0, #1000	; 0x3e8
- 8002f88:	f7fd f92a 	bl	80001e0 <HAL_Delay>
-						  btn_2 = false;
- 8002f8c:	4b43      	ldr	r3, [pc, #268]	; (800309c <main+0x5dc>)
- 8002f8e:	2200      	movs	r2, #0
- 8002f90:	701a      	strb	r2, [r3, #0]
 						  OledClear();
- 8002f92:	f7ff fb22 	bl	80025da <OledClear>
+ 8002f76:	f7ff fb30 	bl	80025da <OledClear>
+						  __HAL_TIM_SET_COMPARE(&htim1, TIM_CHANNEL_2, 1300);
+ 8002f7a:	4b47      	ldr	r3, [pc, #284]	; (8003098 <main+0x5d8>)
+ 8002f7c:	681b      	ldr	r3, [r3, #0]
+ 8002f7e:	3334      	adds	r3, #52	; 0x34
+ 8002f80:	3304      	adds	r3, #4
+ 8002f82:	f240 5214 	movw	r2, #1300	; 0x514
+ 8002f86:	601a      	str	r2, [r3, #0]
+						  HAL_Delay(1000);
+ 8002f88:	f44f 707a 	mov.w	r0, #1000	; 0x3e8
+ 8002f8c:	f7fd f928 	bl	80001e0 <HAL_Delay>
+						  btn_2 = false;
+ 8002f90:	4b42      	ldr	r3, [pc, #264]	; (800309c <main+0x5dc>)
+ 8002f92:	2200      	movs	r2, #0
+ 8002f94:	701a      	strb	r2, [r3, #0]
 				  while(btn_2){
  8002f96:	4b41      	ldr	r3, [pc, #260]	; (800309c <main+0x5dc>)
  8002f98:	781b      	ldrb	r3, [r3, #0]
@@ -8491,8 +8491,8 @@ int main(void)
 			  OledPutString(" Ohms");
  8002fde:	4832      	ldr	r0, [pc, #200]	; (80030a8 <main+0x5e8>)
  8002fe0:	f7ff f9a0 	bl	8002324 <OledPutString>
-			  if((resultado >=1000) & (resultado <= 1400)){
- 8002fe4:	693b      	ldr	r3, [r7, #16]
+			  if((quatro_casas >=1000) & (resultado <= 1400)){
+ 8002fe4:	697b      	ldr	r3, [r7, #20]
  8002fe6:	f240 32e7 	movw	r2, #999	; 0x3e7
  8002fea:	4293      	cmp	r3, r2
  8002fec:	bfcc      	ite	gt
@@ -8509,15 +8509,15 @@ int main(void)
  8003004:	b2db      	uxtb	r3, r3
  8003006:	2b00      	cmp	r3, #0
  8003008:	d03c      	beq.n	8003084 <main+0x5c4>
-				  __HAL_TIM_SET_COMPARE(&htim1, TIM_CHANNEL_3, 150);
- 800300a:	4b23      	ldr	r3, [pc, #140]	; (8003098 <main+0x5d8>)
- 800300c:	681b      	ldr	r3, [r3, #0]
- 800300e:	3334      	adds	r3, #52	; 0x34
- 8003010:	3308      	adds	r3, #8
- 8003012:	2296      	movs	r2, #150	; 0x96
- 8003014:	601a      	str	r2, [r3, #0]
 				  OledClear();
- 8003016:	f7ff fae0 	bl	80025da <OledClear>
+ 800300a:	f7ff fae6 	bl	80025da <OledClear>
+				  __HAL_TIM_SET_COMPARE(&htim1, TIM_CHANNEL_3, 150);
+ 800300e:	4b22      	ldr	r3, [pc, #136]	; (8003098 <main+0x5d8>)
+ 8003010:	681b      	ldr	r3, [r3, #0]
+ 8003012:	3334      	adds	r3, #52	; 0x34
+ 8003014:	3308      	adds	r3, #8
+ 8003016:	2296      	movs	r2, #150	; 0x96
+ 8003018:	601a      	str	r2, [r3, #0]
 				  OledSetCursor(0,0);
  800301a:	2100      	movs	r1, #0
  800301c:	2000      	movs	r0, #0
@@ -8548,40 +8548,40 @@ int main(void)
  800304e:	4603      	mov	r3, r0
  8003050:	2b00      	cmp	r3, #0
  8003052:	d00f      	beq.n	8003074 <main+0x5b4>
-						  __HAL_TIM_SET_COMPARE(&htim1, TIM_CHANNEL_3, 1300);
- 8003054:	4b10      	ldr	r3, [pc, #64]	; (8003098 <main+0x5d8>)
- 8003056:	681b      	ldr	r3, [r3, #0]
- 8003058:	3334      	adds	r3, #52	; 0x34
- 800305a:	3308      	adds	r3, #8
- 800305c:	f240 5214 	movw	r2, #1300	; 0x514
- 8003060:	601a      	str	r2, [r3, #0]
-						  HAL_Delay(1000);
- 8003062:	f44f 707a 	mov.w	r0, #1000	; 0x3e8
- 8003066:	f7fd f8bb 	bl	80001e0 <HAL_Delay>
-						  btn_3 = false;
- 800306a:	4b11      	ldr	r3, [pc, #68]	; (80030b0 <main+0x5f0>)
- 800306c:	2200      	movs	r2, #0
- 800306e:	701a      	strb	r2, [r3, #0]
 						  OledClear();
- 8003070:	f7ff fab3 	bl	80025da <OledClear>
+ 8003054:	f7ff fac1 	bl	80025da <OledClear>
+						  __HAL_TIM_SET_COMPARE(&htim1, TIM_CHANNEL_3, 1300);
+ 8003058:	4b0f      	ldr	r3, [pc, #60]	; (8003098 <main+0x5d8>)
+ 800305a:	681b      	ldr	r3, [r3, #0]
+ 800305c:	3334      	adds	r3, #52	; 0x34
+ 800305e:	3308      	adds	r3, #8
+ 8003060:	f240 5214 	movw	r2, #1300	; 0x514
+ 8003064:	601a      	str	r2, [r3, #0]
+						  HAL_Delay(1000);
+ 8003066:	f44f 707a 	mov.w	r0, #1000	; 0x3e8
+ 800306a:	f7fd f8b9 	bl	80001e0 <HAL_Delay>
+						  btn_3 = false;
+ 800306e:	4b10      	ldr	r3, [pc, #64]	; (80030b0 <main+0x5f0>)
+ 8003070:	2200      	movs	r2, #0
+ 8003072:	701a      	strb	r2, [r3, #0]
 				  while(btn_3){
  8003074:	4b0e      	ldr	r3, [pc, #56]	; (80030b0 <main+0x5f0>)
  8003076:	781b      	ldrb	r3, [r3, #0]
  8003078:	2b00      	cmp	r3, #0
  800307a:	d1e4      	bne.n	8003046 <main+0x586>
  800307c:	e002      	b.n	8003084 <main+0x5c4>
+		  }
 	  //		  sprintf(string_r,"%d",resultado);
 	  //		  OledSetCursor(0,2);
 	  //		  OledPutString(string_r);
-
 	  } else
 		  OledPutString("Circuito aberto");
  800307e:	480d      	ldr	r0, [pc, #52]	; (80030b4 <main+0x5f4>)
  8003080:	f7ff f950 	bl	8002324 <OledPutString>
-	  HAL_Delay(1000);
- 8003084:	f44f 707a 	mov.w	r0, #1000	; 0x3e8
+	  	  HAL_Delay(500);
+ 8003084:	f44f 70fa 	mov.w	r0, #500	; 0x1f4
  8003088:	f7fd f8aa 	bl	80001e0 <HAL_Delay>
-	  OledClear();
+	  	  OledClear();
  800308c:	f7ff faa5 	bl	80025da <OledClear>
   {
  8003090:	e552      	b.n	8002b38 <main+0x78>
@@ -8632,7 +8632,7 @@ void SystemClock_Config(void)
  80030dc:	d004      	beq.n	80030e8 <SystemClock_Config+0x30>
   {
     _Error_Handler(__FILE__, __LINE__);
- 80030de:	f44f 7198 	mov.w	r1, #304	; 0x130
+ 80030de:	f44f 7196 	mov.w	r1, #300	; 0x12c
  80030e2:	4821      	ldr	r0, [pc, #132]	; (8003168 <SystemClock_Config+0xb0>)
  80030e4:	f000 f844 	bl	8003170 <_Error_Handler>
   }
@@ -8666,7 +8666,7 @@ void SystemClock_Config(void)
  800310c:	d004      	beq.n	8003118 <SystemClock_Config+0x60>
   {
     _Error_Handler(__FILE__, __LINE__);
- 800310e:	f44f 719f 	mov.w	r1, #318	; 0x13e
+ 800310e:	f44f 719d 	mov.w	r1, #314	; 0x13a
  8003112:	4815      	ldr	r0, [pc, #84]	; (8003168 <SystemClock_Config+0xb0>)
  8003114:	f000 f82c 	bl	8003170 <_Error_Handler>
   }
@@ -8686,7 +8686,7 @@ void SystemClock_Config(void)
  800312c:	d004      	beq.n	8003138 <SystemClock_Config+0x80>
   {
     _Error_Handler(__FILE__, __LINE__);
- 800312e:	f240 1145 	movw	r1, #325	; 0x145
+ 800312e:	f240 1141 	movw	r1, #321	; 0x141
  8003132:	480d      	ldr	r0, [pc, #52]	; (8003168 <SystemClock_Config+0xb0>)
  8003134:	f000 f81c 	bl	8003170 <_Error_Handler>
   }

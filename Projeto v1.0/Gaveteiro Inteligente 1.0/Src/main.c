@@ -140,70 +140,70 @@ int main(void)
 	  HAL_ADC_Start(&hadc1);
 	  OledSetCursor(0,0);
 	  if (HAL_GPIO_ReadPin(GPIOB, GPIO_PIN_3)){
-		  __HAL_TIM_SET_COMPARE(&htim1, TIM_CHANNEL_1, 150);
 		  OledClear();
+		  __HAL_TIM_SET_COMPARE(&htim1, TIM_CHANNEL_1, 150);
 		  OledSetCursor(0,0);
 		  OledPutString("Caixa 1 aberta");
 		  HAL_Delay(1000);
 		  btn_1 = true;
 		  while(btn_1){
 			  if (HAL_GPIO_ReadPin(GPIOB, GPIO_PIN_3)==GPIO_PIN_SET){
+				  OledClear();
 				  __HAL_TIM_SET_COMPARE(&htim1, TIM_CHANNEL_1, 870);
 				  HAL_Delay(1000);
 				  btn_1 = false;
-				  OledClear();
 			  }
 		  }
 	  }
 	  if (HAL_GPIO_ReadPin(GPIOB, GPIO_PIN_4)){
-		  __HAL_TIM_SET_COMPARE(&htim1, TIM_CHANNEL_2, 480);
 		  OledClear();
+		  __HAL_TIM_SET_COMPARE(&htim1, TIM_CHANNEL_2, 450);
 		  OledSetCursor(0,0);
 		  OledPutString("Caixa 2 aberta");
 		  HAL_Delay(1000);
 		  btn_2 = true;
 	  	  while(btn_2){
 	  		  if (HAL_GPIO_ReadPin(GPIOB, GPIO_PIN_4)){
+	  			OledClear();
 	  			__HAL_TIM_SET_COMPARE(&htim1, TIM_CHANNEL_2, 1300);
 	  			HAL_Delay(1000);
 	  			btn_2 = false;
-	  			OledClear();
 	  		  }
 	  	  }
 	  }
 	  if (HAL_GPIO_ReadPin(GPIOB, GPIO_PIN_5)){
-		  __HAL_TIM_SET_COMPARE(&htim1, TIM_CHANNEL_3, 150);
 		  OledClear();
+		  __HAL_TIM_SET_COMPARE(&htim1, TIM_CHANNEL_3, 150);
 		  OledSetCursor(0,0);
 		  OledPutString("Caixa 3 aberta");
 		  HAL_Delay(1000);
 		  btn_3 = true;
 	  	  while(btn_3){
 	  		  if (HAL_GPIO_ReadPin(GPIOB, GPIO_PIN_5)){
+	  			  OledClear();
 	  			  __HAL_TIM_SET_COMPARE(&htim1, TIM_CHANNEL_3, 1300);
 	  			  HAL_Delay(1000);
 	  			  btn_3 = false;
-	  			  OledClear();
 	  		  }
 	  	  }
 	  }
 	  int leitura = HAL_ADC_GetValue(&hadc1); //pino A6
 	  char tensao[4] = {tabelaad[leitura][0],tabelaad[leitura][1],tabelaad[leitura][2],tabelaad[leitura][3]};
 	  int Vx = atoi(tensao);
-	  resultado = (int)(((3420*R_fixa)/Vx) - R_fixa);
+	  resultado = (int)(((3330*R_fixa)/Vx) - R_fixa);
 	  duas_casas = (int)(resultado -(resultado*10/100));
 	  tres_casas = (int)(resultado + (resultado*10/100));
 	  quatro_casas = (int)(resultado +(resultado*20/100));
 	  if ((resultado > 0) & (resultado < 2000)){
 		  OledPutString("Resistencia: ");
 		  if ((resultado > 0) & (resultado < 100)){
-			  sprintf(string_r,"%d",duas_casas);
+			  sprintf(string_r,"%d",resultado);
 			  OledSetCursor(0,2);
 			  OledPutString(string_r);
 			  OledPutString(" Ohms");
-			  if((resultado > 0) & (resultado < 15)){
-				  __HAL_TIM_SET_COMPARE(&htim1, TIM_CHANNEL_1, 150);
+			  if((resultado > 6) & (resultado < 14)){
 				  OledClear();
+				  __HAL_TIM_SET_COMPARE(&htim1, TIM_CHANNEL_1, 150);
 				  OledSetCursor(0,0);
 				  OledPutString("Caixa 1 aberta");
 				  OledSetCursor(0,2);
@@ -212,10 +212,10 @@ int main(void)
 				  HAL_Delay(1000);
 				  while(btn_1){
 					  if (HAL_GPIO_ReadPin(GPIOB, GPIO_PIN_3)){
+						  OledClear();
 						  __HAL_TIM_SET_COMPARE(&htim1, TIM_CHANNEL_1, 870);
 						  HAL_Delay(1000);
 						  btn_1 = false;
-						  OledClear();
 					  }
 				  }
 			  }
@@ -226,8 +226,8 @@ int main(void)
 			  OledPutString(string_r);
 			  OledPutString(" Ohms");
 			  if((resultado >260) & (resultado < 350)){
-				  __HAL_TIM_SET_COMPARE(&htim1, TIM_CHANNEL_2, 480);
 				  OledClear();
+				  __HAL_TIM_SET_COMPARE(&htim1, TIM_CHANNEL_2, 450);
 				  OledSetCursor(0,0);
 				  OledPutString("Caixa 2 aberta");
 				  OledSetCursor(0,2);
@@ -236,10 +236,10 @@ int main(void)
 				  HAL_Delay(1000);
 				  while(btn_2){
 					  if (HAL_GPIO_ReadPin(GPIOB, GPIO_PIN_4)){
+						  OledClear();
 						  __HAL_TIM_SET_COMPARE(&htim1, TIM_CHANNEL_2, 1300);
 						  HAL_Delay(1000);
 						  btn_2 = false;
-						  OledClear();
 					  }
 				  }
 			  }
@@ -249,9 +249,9 @@ int main(void)
 			  OledSetCursor(0,2);
 			  OledPutString(string_r);
 			  OledPutString(" Ohms");
-			  if((quatro >=1000) & (resultado <= 1400)){
-				  __HAL_TIM_SET_COMPARE(&htim1, TIM_CHANNEL_3, 150);
+			  if((quatro_casas >=1000) & (resultado <= 1400)){
 				  OledClear();
+				  __HAL_TIM_SET_COMPARE(&htim1, TIM_CHANNEL_3, 150);
 				  OledSetCursor(0,0);
 				  OledPutString("Caixa 3 aberta");
 				  OledSetCursor(0,2);
@@ -260,10 +260,10 @@ int main(void)
 				  HAL_Delay(1000);
 				  while(btn_3){
 					  if (HAL_GPIO_ReadPin(GPIOB, GPIO_PIN_5)){
+						  OledClear();
 						  __HAL_TIM_SET_COMPARE(&htim1, TIM_CHANNEL_3, 1300);
 						  HAL_Delay(1000);
 						  btn_3 = false;
-						  OledClear();
 					  }
 				  }
 			  }
@@ -271,14 +271,10 @@ int main(void)
 	  //		  sprintf(string_r,"%d",resultado);
 	  //		  OledSetCursor(0,2);
 	  //		  OledPutString(string_r);
-
 	  } else
 		  OledPutString("Circuito aberto");
-	  HAL_Delay(1000);
-	  OledClear();
-
-
-
+	  	  HAL_Delay(500);
+	  	  OledClear();
   }
   /* USER CODE END 3 */
 
